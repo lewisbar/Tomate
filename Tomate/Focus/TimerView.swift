@@ -64,15 +64,20 @@ final class TimerView: UIView {
     
     var percentage: CGFloat
     var dummyInt: Int
-    if !showRemaining {
-      dummyInt = Int(100000.0*(1 - (durationInSeconds-1) / maxValue))
-      //            percentage = 1 - durationInSeconds / maxValue
-    } else {
-      dummyInt = Int(100000.0*(durationInSeconds-1) / maxValue)
-      //            percentage = durationInSeconds / maxValue
-    }
-    percentage = CGFloat(dummyInt)/100000.0
     
+    if maxValue != 0 {
+        if !showRemaining {
+            dummyInt = Int(100000.0*(1 - (durationInSeconds-1) / maxValue))
+            //            percentage = 1 - durationInSeconds / maxValue
+        } else {
+            dummyInt = Int(100000.0*(durationInSeconds-1) / maxValue)
+            //            percentage = durationInSeconds / maxValue
+        }
+        percentage = CGFloat(dummyInt)/100000.0
+    } else {
+        percentage = 0
+    }
+        
     let timerCenter = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect))
     let radius = rect.size.width / 2 - 10
     let startAngle = 3 * CGFloat(M_PI)/2
@@ -84,7 +89,13 @@ final class TimerView: UIView {
     timerShapeLayer.fillColor = UIColor.clearColor().CGColor
     timerShapeLayer.strokeColor = TimerStyleKit.timerColor.CGColor
     timerShapeLayer.lineWidth = 3
-    timerShapeLayer.strokeEnd = percentage
+    if maxValue != 0 {
+        timerShapeLayer.strokeEnd = percentage
+    } else if !showRemaining {
+        timerShapeLayer.strokeEnd = 0
+    } else {
+        timerShapeLayer.strokeEnd = 1
+    }
     timerShapeLayer.path = timerRingPath.CGPath
     //        timerShapeLayer.shadowColor = TimerStyleKit.timerColor.CGColor
     //        timerShapeLayer.shadowOffset = CGSizeMake(0.1, -0.1)
