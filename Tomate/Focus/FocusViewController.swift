@@ -57,7 +57,7 @@ final class FocusViewController: UIViewController {
     super.viewWillAppear(animated)
     
     if timer == nil {
-      focusView.setDuration(0, maxValue: 0)
+      focusView.setDuration(0, maxValue: 1)
     }
     
     let duration = NSUserDefaults.standardUserDefaults().integerForKey(TimerType.Work.rawValue)
@@ -136,7 +136,7 @@ extension FocusViewController {
   
   func startTimerWithType(timerType: TimerType) {
     
-    focusView.setDuration(0, maxValue: 0)
+    focusView.setDuration(0, maxValue: 1)
     var typeName: String
     switch timerType {
     case .Work:
@@ -213,7 +213,7 @@ extension FocusViewController {
       if timeInterval > -1 {
         AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
       }
-      focusView.setDuration(0, maxValue: 0)
+      focusView.setDuration(0, maxValue: 1)
       return
     }
     
